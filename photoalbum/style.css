@@ -1,0 +1,72 @@
+#album-view img {
+    border: 1px solid slategray;
+    margin: 5px;
+    padding: 5px;
+    height: 300px;
+    animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#modal-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-view img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+#modal-view.hidden {
+    display: none;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+/* animations */
+
+@keyframes slide-from-left {
+    from {
+        margin-left: -200%;
+    }
+    to {
+        margin-left: 200;
+    }
+}
+
+@keyframes slide-from-right {
+    from {
+        margin-left: 200%;
+    }
+    to {
+        margin-left: 200;
+    }
+}
+
+.animate-prev {
+    animation: slide-from-left 1s;
+}
+
+.animate-next {
+    animation: slide-from-right 1s;
+}
