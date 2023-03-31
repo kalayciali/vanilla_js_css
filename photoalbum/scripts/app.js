@@ -8,13 +8,12 @@ class App {
     this.onModalEnter = this.onModalEnter.bind(this);
 
     document.addEventListener('modal-enter', this.onModalEnter)
+    document.addEventListener('modal-exit', this.onModalExit )
     modalElem.addEventListener('pointerdown', this.onModalExit)
 
     this.thumbnails = [];
     this.fillAlbum();
-    this.modal = null;
-
-
+    this.modalScreen = null;
   }
 
   fillAlbum() {
@@ -29,20 +28,20 @@ class App {
   onModalEnter(event) {
 
     document.body.classList.add('no-scroll')
-    this.modalElem.focus(); // for keyboard actions
+    this.modalElem.focus(); 
     this.modalElem.style.top = window.pageYOffset + 'px';
 
-    this.modal = new ModalPhoto(event.detail)
-    this.modalElem.append(this.modal.image)
+    this.modalScreen = new ModalPhoto(event.detail)
+    this.modalElem.append(this.modalScreen.image)
     this.modalElem.classList.remove('hidden')
 
   }
 
   onModalExit() {
     document.body.classList.remove('no-scroll')
-    this.modalElem.classList.add('hidden');
     this.modalElem.innerHTML = '';
-    this.modal = null;
+    this.modalElem.classList.add('hidden');
+    this.modalScreen = null;
   }
 
 

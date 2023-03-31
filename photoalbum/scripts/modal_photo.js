@@ -3,17 +3,17 @@ class ModalPhoto {
   constructor(index) {
 
     this.index = index;
-    console.log(index);
     this.image = document.createElement('img');
     this.image.src = PHOTO_LIST[index]
 
     this.dragStart = this.dragStart.bind(this);
     this.dragMove = this.dragMove.bind(this);
     this.dragAfter = this.dragAfter.bind(this);
+    this.dragLimit = 30; // 30px drag limit to change image
+
     this.onKeyUp = this.onKeyUp.bind(this);
 
     this.startPos = null;
-    this.dragLimit = 30; // 30px drag limit to change image
 
     window.addEventListener('keyup', this.onKeyUp)
 
@@ -21,7 +21,6 @@ class ModalPhoto {
     this.image.addEventListener('pointermove', this.dragMove)
     this.image.addEventListener('pointerup', this.dragAfter)
     this.image.addEventListener('pointercancel', this.dragAfter)
-
 
   }
 
@@ -38,27 +37,31 @@ class ModalPhoto {
 
   onIndexChange(classStr) {
     this.image.src = PHOTO_LIST[this.index];
+    this.image.classList.remove(...this.image.classList);
     this.image.classList.add(classStr);
     this.image.style.transform = '';
   }
 
   onKeyUp(event) {
 
+    let classStr = ''
     switch(event.key) {
       case "ArrowRight":
         this.index++
+        classStr += 'animate-next'
         break;
 
       case "ArrowLeft":
         this.index--;
+        classStr += 'animate-prev'
         break;
 
       case "Escape":
+        document.dispatchEvent(new CustomEvent('modal-exit'))
         break;
     }
 
-    this.checkIndex();
-    this.onIndexChange()
+    this.updateImg(classStr)
   }
 
 
@@ -78,6 +81,11 @@ class ModalPhoto {
 
   }
 
+  updateImg(classStr)
+  {
+    this.checkIndex();
+    this.onIndexChange(classStr);
+  }
 
   dragAfter(event) {
 
@@ -100,8 +108,7 @@ class ModalPhoto {
         classStr += 'animate-prev'
       }
 
-      this.checkIndex();
-      this.onIndexChange(classStr);
+    this.updateImg(classStr)
 
     } else {
       this.image.style.transform = '';
